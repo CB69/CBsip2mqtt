@@ -111,7 +111,6 @@ def main(argv):
     parser.add_argument(                "--mqtt_topic",     type=str, required=False, help="the MQTT broker topic", default=os.environ.get('MQTT_TOPIC', "home/sip"))
 
     requiredNamed.add_argument("-d",    "--sip_domain",     type=str, required=True, help="the SIP domain", default=os.environ.get('SIP_DOMAIN', None))
-    parser.add_argument(                "--sip_port",       type=int, required=False, help="the SIP transport port number", default=os.environ.get('SIP_PORT', 5060))
     requiredNamed.add_argument("-n",    "--sip_username",   type=str, required=True, help="the SIP username", default=os.environ.get('SIP_USERNAME', None))
     requiredNamed.add_argument("-s",    "--sip_password",   type=str, required=False, help="the SIP password", default=os.environ.get('SIP_PASSWORD', None))
     parser.add_argument(                "--sip_display",    type=str, required=False, help="the SIP user display name", default=app_name)
