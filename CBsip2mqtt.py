@@ -62,7 +62,11 @@ class SMAccountCallback(pj.AccountCallback):
 
     def on_incoming_call(self, call):
         # Unless this callback is implemented, the default behavior is to reject the call with default status code.
+
+        logging.info( "SIP: Incoming call.info().remote_uri " + call.info().remote_uri )
+        
         logging.info( "SIP: Incoming call from " + extract_caller_id( call.info().remote_uri ) )
+        
         broker.publish(args.mqtt_topic, payload="{\"verb\": \"incoming\", \"caller\":\"" + extract_caller_id( call.info().remote_uri ) + "\", \"uri\":" + json.dumps(call.info().remote_uri) + "}", qos=0, retain=True)
 
         current_call = call
@@ -159,6 +163,8 @@ def main(argv):
     logging.info("Username: " + args.sip_username)
     logging.info("DisplayName: " + args.sip_display)
 
+    
+   
     try:
         # Handle mqtt connection and callbacks
         broker = mqtt.Client(client_id="", clean_session=True, userdata=None, protocol=eval("mqtt." + args.mqtt_protocol))
@@ -187,6 +193,8 @@ def main(argv):
         acc_cfg.auth_cred = [ pj.AuthCred(args.sip_domain, args.sip_username, args.sip_password) ]
         acc_cfg.allow_contact_rewrite = False
 
+        logging.info( "id " + acc_cfg.id )
+        
         acc = lib.create_account(acc_cfg)
         acc_cb = SMAccountCallback(acc)
         acc.set_callback(acc_cb)
