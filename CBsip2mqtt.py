@@ -17,7 +17,7 @@ def extract_caller_id(url):
     
     logging.info( "SIP: Incoming m1 " + m.group(1) )
 
-    return m.group(0) + " " + phone_format(m.group(1))
+    return phone_format(m.group(1))
 
 def phone_format(phone_number):
     clean_phone_number = re.sub('[^0-9]+', '', phone_number)
@@ -90,6 +90,10 @@ class SMCallCallback(pj.CallCallback):
         elif self.call.info().state == pj.CallState.DISCONNECTED:
             logging.info( 'SIP: Current call has ended' )
             broker.publish(args.mqtt_topic, payload="{\"verb\": \"disconnected\", \"caller\":\"\", \"uri\":\"\"}", qos=0, retain=True)
+
+
+######----------------------------------------------
+
 
 def main(argv):
     global broker
