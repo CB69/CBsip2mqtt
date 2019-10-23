@@ -63,8 +63,9 @@ class SMAccountCallback(pj.AccountCallback):
     def on_incoming_call(self, call):
         # Unless this callback is implemented, the default behavior is to reject the call with default status code.
 
-        logging.info( "SIP: Incoming call.info().remote_uri " + call.info().remote_uri )
-                
+        logging.info( "SIP: call.info().remote_uri " + call.info().remote_uri )
+        logging.info( "SIP: call.info() extracted " + extract_caller_id( call.info().remote_uri ) )
+
         broker.publish(args.mqtt_topic, payload="{\"verb\": \"incoming\", \"caller\":\"" + extract_caller_id( call.info().remote_uri ) + "\", \"uri\":" + json.dumps(call.info().remote_uri) + "}", qos=0, retain=True)
 
         current_call = call
