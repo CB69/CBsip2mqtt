@@ -162,7 +162,6 @@ def main(argv):
     logging.info("Domain: " + args.sip_domain)
     logging.info("Username: " + args.sip_username)
     logging.info("DisplayName: " + args.sip_display)
-
     
    
     try:
@@ -190,7 +189,8 @@ def main(argv):
         acc_cfg = pj.AccountConfig()
         acc_cfg.id = "sip:" + args.sip_username + "@" + args.sip_domain
         acc_cfg.reg_uri = "sip:" + args.sip_domain
-        acc_cfg.auth_cred = [ pj.AuthCred(args.sip_domain, args.sip_username, args.sip_password) ]
+        # AuthCred realm parameter set to "*", works better with some providers    
+        acc_cfg.auth_cred = [ pj.AuthCred( "*", args.sip_username, args.sip_password) ]
         acc_cfg.allow_contact_rewrite = False
 
         logging.info( "id " + acc_cfg.id )
